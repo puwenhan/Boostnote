@@ -48,7 +48,8 @@ class UiTab extends React.Component {
         indentType: this.refs.editorIndentType.value,
         indentSize: this.refs.editorIndentSize.value,
         switchPreview: this.refs.editorSwitchPreview.value,
-        keyMap: this.refs.editorKeyMap.value
+        keyMap: this.refs.editorKeyMap.value,
+        type: this.refs.editorType.value
       },
       preview: {
         fontSize: this.refs.previewFontSize.value,
@@ -229,6 +230,21 @@ class UiTab extends React.Component {
                 <option value='emacs'>emacs</option>
               </select>
               <span styleName='note-for-keymap'>Please restart boostnote after you change the keymap</span>
+            </div>
+          </div>
+
+          <div styleName='group-section'>
+            <div styleName='group-section-label'>
+              Editor Type
+            </div>
+            <div styleName='group-section-control'>
+              <select value={config.editor.type}
+                ref='editorType'
+                onChange={(e) => this.handleUIChange(e)}
+              >
+                <option value='DEFAULT'>default</option>
+                <option value='WYSIWYG'>WYSIWYG</option>
+              </select>
             </div>
           </div>
 
