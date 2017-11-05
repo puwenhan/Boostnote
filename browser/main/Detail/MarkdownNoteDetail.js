@@ -261,7 +261,34 @@ class MarkdownNoteDetail extends React.Component {
     ee.emit('print')
   }
 
+  renderEditor () {
+    const { config } = this.props
+    const editorType = config.editor.type
+    let editor
+    if (editorType === 'DEFAULT') {
+      editor =
+        <MarkdownEditor
+          ref='content'
+          styleName='body-noteEditor'
+          config={config}
+          value={this.state.note.content}
+          storageKey={this.state.note.storage}
+          onChange={(e) => this.handleChange(e)}
+          ignorePreviewPointerEvents={this.props.ignorePreviewPointerEvents}
+        />
+    } else if (editorType === 'WYSIWYG') {
+      editor =
+        <WYSIWYGEditor
+          ref='content'
+          value={this.state.note.content}
+          config={config}
+          onChange={(e) => this.handleChange(e)} />
+    }
+    return editor
+  }
+
   render () {
+    this.renderEditor()
     let { data, config, location } = this.props
     let { note } = this.state
     let storageKey = note.storage
@@ -376,21 +403,7 @@ class MarkdownNoteDetail extends React.Component {
         {location.pathname === '/trashed' ? trashTopBar : detailTopBar}
 
         <div styleName='body'>
-          {/* <MarkdownEditor
-              ref='content'
-              styleName='body-noteEditor'
-              config={config}
-              value={this.state.note.content}
-              storageKey={this.state.note.storage}
-              onChange={(e) => this.handleChange(e)}
-              ignorePreviewPointerEvents={this.props.ignorePreviewPointerEvents}
-              /> */}
-          <WYSIWYGEditor
-            ref='content'
-            value={this.state.note.content}
-            config={config}
-            onChange={(e) => this.handleChange(e)} />
-
+          {this.renderEditor()}
         </div>
 
         <StatusBar
